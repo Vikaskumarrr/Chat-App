@@ -6,7 +6,6 @@ import SettingPage from "./pages/SettingPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 
 import { Navigate, Route, Routes } from "react-router-dom"
-import { axiosInstance } from "./utils/axios.js";
 import { useAuthStore } from "./store/useAuthStore.js";
 import { useEffect } from "react";
 
@@ -19,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth])
+  }, [])
 
   console.log({ authUser });
 

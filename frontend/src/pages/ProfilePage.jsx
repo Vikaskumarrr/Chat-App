@@ -48,7 +48,7 @@ const ProfilePage = () => {
                   bg-base-content hover:scale-105
                   p-2 rounded-full cursor-pointer 
                   transition-all duration-200
-                  ${isUpdatingProfile ? "animate-pulse pointer-events-none" : ""}
+                  ${isUpdatedProfile ? "animate-pulse pointer-events-none" : ""}
                 `}
               >
                 <Camera className="w-5 h-5 text-base-200" />
@@ -58,12 +58,12 @@ const ProfilePage = () => {
                   className="hidden"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  disabled={isUpdatingProfile}
+                  disabled={isUpdatedProfile}
                 />
               </label>
             </div>
             <p className="text-sm text-zinc-400">
-              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
+              {isUpdatedProfile ? "Uploading..." : "Click the camera icon to update your photo"}
             </p>
           </div>
 
