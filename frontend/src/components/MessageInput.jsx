@@ -1,6 +1,7 @@
 import { Image, Send, X } from 'lucide-react';
 import React, { useReducer, useRef, useState } from 'react'
 import { useChatStore } from '../store/useChatStore';
+import toast from 'react-hot-toast';
 
 const MessageInput = () => {
   const [text, setText] = useState("");
@@ -9,11 +10,42 @@ const MessageInput = () => {
   const { sendMessage } = useChatStore();
 
   const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
 
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
-  const removeImage = () => { };
-  const handleSendMessage = () => { };
+
+  const removeImage = () => {
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!text.trim() && !imagePreview) return;
+    try {
+      await sendMessage({
+        text:text.trim(),
+        image:imagePreview
+      });
+
+      // clear form 
+      setText("");
+      setImagePreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (error) {
+      console.error("Failed to send message:", error )
+   }
+  }
 
 
   return (
@@ -75,6 +107,7 @@ const MessageInput = () => {
 
     </div>
   )
-}
+  };
 
-export default MessageInput
+
+export default MessageInput ;
